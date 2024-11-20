@@ -53,3 +53,4 @@ local.properties
 *.hprof
 *.pyc
 *.ipynb_checkpoints
+*.freezed.dart

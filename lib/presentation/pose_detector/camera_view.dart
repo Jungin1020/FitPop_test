@@ -82,7 +82,9 @@ class _CameraViewState extends State<CameraView> {
 
   Widget _liveFeedBody() {
     if (_controller?.value.isInitialized == false) {
-      return Container();
+      return Container(
+        child: Text('nothing'),
+      );
     }
     final size = MediaQuery.of(context).size;
     var scale = size.aspectRatio * _controller!.value.aspectRatio;

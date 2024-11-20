@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_get_skeleton_1/presentation/pose_detector/pose_detector_view_model.dart';
 
 import 'presentation/pose_detector/pose_detector_screen.dart';
 
@@ -28,6 +30,9 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PoseDetectScreen();
+    return ChangeNotifierProvider(
+      create: (_) => PoseDetectorViewModel(),
+      child: const PoseDetectScreen(),
+    );
   }
 }
