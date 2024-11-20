@@ -1,0 +1,55 @@
+# Flutter/Dart 관련
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+.pub-cache/
+.pub/
+/build/
+
+# iOS 관련
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Podfile.lock
+ios/Pods/
+ios/Runner.xcworkspace/
+
+# Android 관련
+**/*.iml
+.gradle/
+local.properties
+.idea/
+.cache/
+*.apk
+*.aab
+*.jks
+
+# VS Code 관련
+.vscode/
+
+# IntelliJ/Android Studio 관련
+*.idea/
+*.iml
+.idea/modules.xml
+.idea/*.iml
+.idea/workspace.xml
+.idea/libraries/
+.idea/shelf/
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+*.iws
+
+# 기타
+*.log
+*.lock
+*.pdb
+*.dll
+*.dmg
+*.class
+*.so
+*.keystore
+*.hprof
+*.pyc
+*.ipynb_checkpoints
