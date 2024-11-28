@@ -30,6 +30,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return Placeholder();
     return ChangeNotifierProvider(
       create: (_) => PoseDetectorViewModel(),
       child: const PoseDetectScreen(),

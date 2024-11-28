@@ -35,21 +35,31 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
     final viewModel = PoseDetectorViewModel();
     // final state = viewModel.state;
     // 카메라뷰 보이기
-    return CameraView(
-      // 스켈레톤 그려주는 객체 전달
-      customPaint: _customPaint,
-      // 카메라에서 전해 주는 이미지를 받을 때마다 아래 함수 실행
-      onImage: (inputImage) async {
-        final customPaint = await viewModel.processImage(
-            _poseDetector, _customPaint, inputImage);
-        if (customPaint != null) {
-          setState(
-            () {
-              _customPaint = customPaint;
-            },
-          );
-        }
-      },
+    return Stack(
+      children: [
+        CameraView(
+          // 스켈레톤 그려주는 객체 전달
+          customPaint: _customPaint,
+          // 카메라에서 전해 주는 이미지를 받을 때마다 아래 함수 실행
+          onImage: (inputImage) async {
+            final customPaint = await viewModel.processImage(
+                _poseDetector, _customPaint, inputImage, _canProcess);
+            if (customPaint != null) {
+              setState(
+                () {
+                  _customPaint = customPaint;
+                },
+              );
+            }
+          },
+        ),
+        const Center(
+          child: Text(
+            '10',
+            style: TextStyle(fontSize: 300, color: Colors.white30),
+          ),
+        )
+      ],
     );
   }
 }

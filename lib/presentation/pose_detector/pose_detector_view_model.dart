@@ -9,8 +9,8 @@ class PoseDetectorViewModel with ChangeNotifier {
   PoseDetectorState get state => _state;
 
   Future<CustomPaint?> processImage(PoseDetector poseDetector,
-      CustomPaint? customPaint, InputImage inputImage) async {
-    // if (!_canProcess) return;
+      CustomPaint? customPaint, InputImage inputImage, bool canProcess) async {
+    if (!canProcess) return null;
     if (state.isBusy) return null;
     _state = state.copyWith(isBusy: true);
     notifyListeners();
