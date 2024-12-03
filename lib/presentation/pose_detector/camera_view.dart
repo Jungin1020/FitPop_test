@@ -32,6 +32,9 @@ class _CameraViewState extends State<CameraView> {
   // 카메라 인덱스
   int _cameraIndex = -1;
 
+  // 카메라 렌즈 방향
+  CameraLensDirection _currentLensDirection = CameraLensDirection.back;
+
   // 확대 축소 레벨
   double zoomLevel = 0.0, minZoomLevel = 0.0, maxZoomLevel = 0.0;
 
@@ -61,10 +64,11 @@ class _CameraViewState extends State<CameraView> {
         }
       }
     }
+    // 초기 카메라 렌즈 설정
+    _currentLensDirection = widget.initialDirection;
 
-    if (_cameraIndex != -1) {
-      _startLiveFeed();
-    }
+    // 카메라 초기화
+    _initializeCamera();
   }
 
   @override
@@ -76,7 +80,24 @@ class _CameraViewState extends State<CameraView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _liveFeedBody(),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          _liveFeedBody(),
+          Positioned(
+            top: 50,
+            right: 20,
+            child: IconButton(
+              icon: Icon(
+                Icons.control_camera,
+                color: Colors.white,
+                size: 50,
+              ),
+              onPressed: _switchCameraLens,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -133,17 +154,18 @@ class _CameraViewState extends State<CameraView> {
     );
   }
 
-  Future _startLiveFeed() async {
-    final camera = cameras[_cameraIndex];
+  Future _initializeCamera() async {
+    final camera = cameras.firstWhere(
+      (camera) => camera.lensDirection == _currentLensDirection,
+    );
     _controller = CameraController(
       camera,
       ResolutionPreset.high,
       enableAudio: false,
     );
+
     _controller?.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       _controller?.getMinZoomLevel().then((value) {
         zoomLevel = value;
         minZoomLevel = value;
@@ -192,5 +214,24 @@ class _CameraViewState extends State<CameraView> {
         InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
 
     widget.onImage(inputImage);
+  }
+
+  void _switchCameraLens() {
+    setState(() {
+      _changingCameraLens = true;
+    });
+
+    // 현재 렌즈 방향을 반대로 설정
+    _currentLensDirection = _currentLensDirection == CameraLensDirection.back
+        ? CameraLensDirection.front
+        : CameraLensDirection.back;
+
+    // 카메라 컨트롤러 종료 및 새 카메라로 초기화
+    _stopLiveFeed().then((_) {
+      _initializeCamera();
+      setState(() {
+        _changingCameraLens = false;
+      });
+    });
   }
 }

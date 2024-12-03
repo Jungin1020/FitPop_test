@@ -12,6 +12,7 @@ class PoseDetectorState with _$PoseDetectorState {
     @Default([]) List<Pose> poses,
     @Default(true) bool canProcess,
     @Default(false) bool isBusy,
+    @Default(0) int squatCount,
     @Default({'left': SquatPhase.invalid, 'right': SquatPhase.invalid})
     Map<String, SquatPhase> squatPhase,
     @Default({'left': 0.0, 'right': 0.0}) Map<String, double> kneeAngles,

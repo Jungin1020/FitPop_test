@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +35,8 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
 
   @override
   Widget build(BuildContext context) {
-    // final viewModel = PoseDetectorViewModel();
     final viewModel = context.watch<PoseDetectorViewModel>();
-    // final state = viewModel.state;
+    final state = viewModel.state;
     // 카메라뷰 보이기
     return Stack(
       children: [
@@ -56,9 +56,19 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
             }
           },
         ),
-        const Center(
+        Positioned(
+          top: 500,
+          left: 50,
+          child: Text(state.kneeAngles['left']!.toStringAsFixed(1)),
+        ),
+        Positioned(
+          top: 500,
+          right: 50,
+          child: Text(state.kneeAngles['right']!.toStringAsFixed(1)),
+        ),
+        Center(
           child: Text(
-            '10',
+            state.squatCount.toString(),
             style: TextStyle(fontSize: 300, color: Colors.white30),
           ),
         ),

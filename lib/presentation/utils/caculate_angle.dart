@@ -97,9 +97,9 @@ Map<String, SquatPhase> evaluateSquat(
   SquatPhase evaluatePhase(double kneeAngle) {
     if (kneeAngle > 70) {
       return SquatPhase.bottomPosition;
-    } else if (kneeAngle > 30 && kneeAngle <= 70) {
+    } else if (kneeAngle > 45 && kneeAngle <= 70) {
       return SquatPhase.descentPhase;
-    } else if (kneeAngle <= 30) {
+    } else if (kneeAngle <= 45) {
       return SquatPhase.standing;
     } else {
       return SquatPhase.invalid;
@@ -128,86 +128,3 @@ Map<String, SquatPhase> evaluateSquat(
 
   return updatedPhases;
 }
-
-// /// 상태 변화를 추적하는 evaluateSquat 함수
-// Map<String, SquatPhase> evaluateSquat(
-//     List<Pose> poses, Map<String, SquatPhase> previousPhases) {
-//   if (poses.isEmpty) {
-//     // print("No poses detected.");
-//     return previousPhases;
-//   }
-//
-//   // 첫 번째 포즈 선택
-//   Pose pose = poses.first;
-//
-//   // 필요한 키포인트 추출
-//   PoseLandmark? leftHip = pose.landmarks[PoseLandmarkType.leftHip];
-//   PoseLandmark? leftKnee = pose.landmarks[PoseLandmarkType.leftKnee];
-//   PoseLandmark? leftAnkle = pose.landmarks[PoseLandmarkType.leftAnkle];
-//
-//   PoseLandmark? rightHip = pose.landmarks[PoseLandmarkType.rightHip];
-//   PoseLandmark? rightKnee = pose.landmarks[PoseLandmarkType.rightKnee];
-//   PoseLandmark? rightAnkle = pose.landmarks[PoseLandmarkType.rightAnkle];
-//
-//   // 키포인트 유효성 검사
-//   if (leftHip == null ||
-//       leftKnee == null ||
-//       leftAnkle == null ||
-//       rightHip == null ||
-//       rightKnee == null ||
-//       rightAnkle == null) {
-//     print("Missing keypoints for squat evaluation.");
-//     return previousPhases;
-//   }
-//
-//   // 무릎 각도 계산
-//   double leftKneeAngle = computeAngle(
-//     {'x': leftHip.x, 'y': leftHip.y},
-//     {'x': leftKnee.x, 'y': leftKnee.y},
-//     {'x': leftAnkle.x, 'y': leftAnkle.y},
-//   );
-//
-//   double rightKneeAngle = computeAngle(
-//     {'x': rightHip.x, 'y': rightHip.y},
-//     {'x': rightKnee.x, 'y': rightKnee.y},
-//     {'x': rightAnkle.x, 'y': rightAnkle.y},
-//   );
-//
-//   // 평가 기준 정의
-//   SquatPhase evaluatePhase(double kneeAngle) {
-//     if (kneeAngle > 70) {
-//       return SquatPhase.bottomPosition;
-//     } else if (kneeAngle > 30 && kneeAngle <= 70) {
-//       return SquatPhase.descentPhase;
-//     } else if (kneeAngle <= 30) {
-//       return SquatPhase.standing;
-//     } else {
-//       return SquatPhase.invalid;
-//     }
-//   }
-//
-//   // 현재 상태 평가
-//   SquatPhase leftSquatPhase = evaluatePhase(leftKneeAngle);
-//   SquatPhase rightSquatPhase = evaluatePhase(rightKneeAngle);
-//
-//   // 상태 변경 시 출력하고 새로운 맵으로 상태 갱신
-//   Map<String, SquatPhase> updatedPhases = Map.from(previousPhases);
-//
-//   // 이전 상태와 비교
-//   if (updatedPhases['left'] != leftSquatPhase) {
-//     print(
-//         "Left Knee: ${leftSquatPhase.description} (Angle: ${leftKneeAngle.toStringAsFixed(2)}°)");
-//     updatedPhases['left'] = leftSquatPhase; // 상태 갱신
-//   }
-//
-//   if (updatedPhases['right'] != rightSquatPhase) {
-//     print(
-//         "Right Knee: ${rightSquatPhase.description} (Angle: ${rightKneeAngle.toStringAsFixed(2)}°)");
-//     updatedPhases['right'] = rightSquatPhase; // 상태 갱신
-//   }
-//
-//   updatedPhases['left'] = leftSquatPhase;
-//   updatedPhases['right'] = rightSquatPhase;
-//
-//   return updatedPhases;
-// }

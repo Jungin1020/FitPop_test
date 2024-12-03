@@ -11,14 +11,6 @@ class PoseDetectorViewModel with ChangeNotifier {
 
   PoseDetectorState get state => _state;
 
-  // 이전 phase 저장하는 변수
-  // Map<String, SquatPhase> _previousPhase = {
-  //   'left': SquatPhase.invalid,
-  //   'right': SquatPhase.invalid
-  // };
-
-  // Map<String, SquatPhase> get previousPhase => _previousPhase;
-
   Future<CustomPaint?> processImage(PoseDetector poseDetector,
       CustomPaint? customPaint, InputImage inputImage, bool canProcess) async {
     if (!canProcess) return null;
@@ -46,21 +38,21 @@ class PoseDetectorViewModel with ChangeNotifier {
     } else {
       // 추출된 포즈 없음
       customPaint = null;
-      // print('no poses');
+    }
+
+    if (_state.squatPhase['left'] == SquatPhase.descentPhase &&
+        updatedPhase['left'] == SquatPhase.standing) {
+      _state = state.copyWith(
+        squatCount: state.squatCount + 1,
+      );
+      notifyListeners();
     }
 
     _state = state.copyWith(
       isBusy: false,
-      // poses: poses,
       kneeAngles: kneeAngles,
       squatPhase: Map.from(updatedPhase),
     );
-
-    // if (_state.squatPhase != updatedPhase) {
-    //   _state = state.copyWith(
-    //     squatPhase: Map.from(updatedPhase),
-    //   );
-    // }
     notifyListeners();
 
     return customPaint;
