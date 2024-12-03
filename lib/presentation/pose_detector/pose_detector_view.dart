@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
+import 'package:provider/provider.dart';
+import 'package:test_get_skeleton_1/main.dart';
 import 'package:test_get_skeleton_1/presentation/pose_detector/pose_detector_view_model.dart';
 import 'camera_view.dart';
 
@@ -32,7 +34,8 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = PoseDetectorViewModel();
+    // final viewModel = PoseDetectorViewModel();
+    final viewModel = context.watch<PoseDetectorViewModel>();
     // final state = viewModel.state;
     // 카메라뷰 보이기
     return Stack(
@@ -58,7 +61,7 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
             '10',
             style: TextStyle(fontSize: 300, color: Colors.white30),
           ),
-        )
+        ),
       ],
     );
   }
